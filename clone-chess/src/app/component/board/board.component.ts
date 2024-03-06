@@ -98,7 +98,7 @@ export class BoardComponent {
         }
         if (this.highlx.includes(r + f)) {
             //move
-            // this.move(this.selected.substring(0, 1), this.selected.substring(1, 2), r, f)
+            this.move(this.selected.substring(0, 1), this.selected.substring(1, 2), r, f)
         } else {
             //select and check moves
             this.selected = r + f;
@@ -123,6 +123,8 @@ export class BoardComponent {
             if (r == chess.initialPosition.rank && f == chess.initialPosition.file) {
                 moveSet = chess.initialMoveSet;
             }
+
+            // Move
             for (let m in moveSet) {
                 const action = moveSet[m]
                 for (let i = 1; i < action.range + 1; i++) {
@@ -138,6 +140,41 @@ export class BoardComponent {
                     }
                 }
             }
+
+            // Capture
+            console.log('capture', chess.captureMoveSet)
+            for (let c in chess.captureMoveSet){
+                const action = chess.captureMoveSet[c]
+                for (let i = 1; i<action.range+1;i++){
+                    const newR = Board.rankMovement(r, action.rank * i * direction)
+                    const newF = Board.fileMovement(f, action.file * i)
+                    console.log('capture', newR, newF)
+                    if(newR && newF){
+                        const sq = this.board[newR][newF]
+                        const occupier = sq.occupier
+                        const id = newR + newF;
+                        if (occupier != null){
+                            if (occupier.color != color) {
+                                moves.push(id)
+                            }
+                            break
+                        }
+                    }
+                }
+            }
+
+            // Promotion
+            let enemyBase:string[];
+            if (color == 'white'){
+                enemyBase = ['8a', '8b', '8c', '8d', '8e', '8f', '8g', '8h']
+            } else {
+                enemyBase = ['8a', '8b', '8c', '8d', '8e', '8f', '8g', '8h']
+            }
+            moves.forEach(loc => {
+                if (enemyBase.includes(loc)){
+                    this.promote.push(loc)
+                }
+            })
         } else {
             for (let m in moveSet) {
                 const action = moveSet[m]
@@ -165,7 +202,44 @@ export class BoardComponent {
         return moves
     }
 
-    move(): void { }
+    move(fr: string, ff: string, tr: string, tf: string): void {
+        console.log(fr,ff,tr,tf)
+        let fsq = this.board[fr][ff]
+        let tsq = this.board[tr][tf]
+        let chess: (Chess.ChessPiece | null) = null;
+        const moveTo = () => {
+            fsq.occupier = null;
+            tsq.occupier = chess
+            if(this.promote.includes(tr+tf)){
+                alert('PROMOTION!!')
+            }
+            this.reset()
+        }
+
+        if (fsq == null) {
+            //no chess to move
+            console.log(`${ff}${fr} > ${tf}${tr} : no chess`)
+        } else {
+            chess = fsq.occupier;
+        }
+
+        if (tsq.occupier == null) {
+            //move chess to empty sq
+            moveTo()
+            console.log(`${ff}${fr} > ${tf}${tr} : to empty`)
+        } else {
+            if (tsq.color != chess?.color) {
+                console.log(`${ff}${fr} > ${tf}${tr} : capture`)
+                if (tsq.occupier.character == 'King'){
+                    this.winner = chess?.color || ''
+                }
+                moveTo()
+            }
+            if (tsq.color == chess?.color) {
+                console.log(`${ff}${fr} > ${tf}${tr} : block`)
+            }
+        }
+    }
 
     ngOnInit(): void {
         this.board = new Board().current

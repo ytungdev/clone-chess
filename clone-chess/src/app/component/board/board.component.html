@@ -1,0 +1,33 @@
+<div *ngIf="board">
+    <table>
+        <caption>Chess board</caption>
+        <tr *ngIf="files">
+            <ng-container *ngFor="let file of files">
+                <th>{{file}}</th>
+            </ng-container>
+        </tr>
+        <tr *ngFor="let r of ranks;let i=index">
+            <ng-container *ngFor="let f of files">
+                <td [ngClass]="
+                    selected==r+f ? 
+                    'selected' : 
+                        (promote.includes(board[r][f].id) ? 'promote' :
+                        (highlx.includes(board[r][f].id) ? 'highlx' : board[r][f].color)
+                        )" (click)="select(r, f)" id="{{r+f}}">
+                    <ng-container *ngIf="board[r][f].occupier != null;else occupier_null">
+                        <span [ngClass]="board[r][f].occupier.color=='light' ? 'white' : 'black' ">
+                            {{board[r][f].occupier.symbol}}
+                        </span>
+                    </ng-container>
+                    <ng-template #occupier_null>
+
+                    </ng-template>
+                </td>
+            </ng-container>
+            <th *ngIf="ranks">
+                {{ranks[i]}}
+            </th>
+        </tr>
+    </table>
+    <h1 style="text-align: center" *ngIf="winner != ''">The winner is : {{winner}}</h1>
+</div>

@@ -1,0 +1,48 @@
+table, th, td{
+    border: solid 1px black;
+    text-align: center;
+}
+
+table{
+    margin: 25px auto;
+}
+
+td {
+    height: 50px;
+    width: 50px;
+    font-size: 24px;
+    user-select: none;
+    -webkit-text-stroke: 0.5px black;
+    font-family: sans;
+}
+
+.dark{
+    background-color: #909090;
+}
+.light{
+    background-color: #eaeaea;
+}
+
+.white{
+    color: white;
+    font-size: 48px;
+}
+.black{
+    color: black;
+    font-size: 48px;
+}
+
+
+.selected {
+    background-color: red;
+}
+
+.highlx {
+    background-color: yellow;
+}
+
+.promote {
+    background-color: green;
+}
+
+

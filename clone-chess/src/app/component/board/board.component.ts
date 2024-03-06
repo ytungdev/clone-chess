@@ -39,17 +39,20 @@ class Board {
         // '8' + 1 = '7'
         const curInt = parseInt(current)
         const newInt = curInt - step
+        console.log('rank', current, step, newInt)
         if (1 <= newInt && newInt <= 8) {
-            return newInt.toString()
+            const newStr = newInt.toString()
+            return newStr
         }
         return false
     }
-
+    
     static readonly fileMovement = (current: string, step: number) => {
         // 'a' + 1 = 'b'
         // 'a'->97, 'h'->104
-        const curInt = current.charCodeAt(0) - 97
+        const curInt = current.charCodeAt(0)
         const newInt = curInt + step
+        console.log('file', current, step, newInt)
         if (97 <= newInt && newInt <= 104) {
             return String.fromCharCode(newInt)
         }
@@ -99,11 +102,12 @@ export class BoardComponent {
         } else {
             //select and check moves
             this.selected = r + f;
-            this.possibleMove(r, f)
+            this.highlx = this.possibleMove(r, f)
+            console.log(this.highlx)
         }
     }
 
-    possibleMove(r: string, f: string): Chess.Position[] {
+    possibleMove(r: string, f: string): string[] {
         const chess = this.board[r][f].occupier
         if (chess == null) {
             return []
@@ -117,16 +121,13 @@ export class BoardComponent {
             if (r == chess.initialPosition.rank && f == chess.initialPosition.file) {
                 moveSet = chess.initialMoveSet;
             }
-            moveSet.map((move: Chess.Move) => {
-                move.rank = move.rank * direction
-            })
-            console.log(moveSet)
+            console.log('ms', moveSet)
             for (let m in moveSet) {
                 const action = moveSet[m]
-                for (let i = 1; i < action.step + 1; i++) {
-                    const newR = Board.rankMovement(r, action.rank * i)
+                for (let i = 1; i < action.range + 1; i++) {
+                    const newR = Board.rankMovement(r, action.rank * i * direction)
                     const newF = Board.fileMovement(f, action.file * i)
-                    console.log(newR, newF)
+                    console.log('test', newR, newF)
                     if (newR && newF) {
                         const sq = this.board[newR][newF]
                         const occupier = sq.occupier
@@ -140,8 +141,8 @@ export class BoardComponent {
         } else {
 
         }
-        console.log(moves)
-        return []
+        console.log('moves', moves)
+        return moves
     }
 
     move(): void { }

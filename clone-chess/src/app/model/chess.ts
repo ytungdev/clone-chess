@@ -7,20 +7,20 @@ export interface Character {
 }
 
 export type Position = { rank: string, file: string }
-export type Move = { rank: number, file: number, step: number }
+export type Move = { rank: number, file: number, range: number }
 
 export type CharacterIndex = { [key: string]: Character }
 export const characterIndex: CharacterIndex = {
     'King': {
         moveSet: [
-            { rank: 0, file: 1, step: 1 },
-            { rank: 1, file: 1, step: 1 },
-            { rank: 1, file: 0, step: 1 },
-            { rank: 1, file: -1, step: 1 },
-            { rank: 0, file: -1, step: 1 },
-            { rank: -1, file: -1, step: 1 },
-            { rank: -1, file: 0, step: 1 },
-            { rank: -1, file: 1, step: 1 }
+            { rank: 0, file: 1, range: 1 },
+            { rank: 1, file: 1, range: 1 },
+            { rank: 1, file: 0, range: 1 },
+            { rank: 1, file: -1, range: 1 },
+            { rank: 0, file: -1, range: 1 },
+            { rank: -1, file: -1, range: 1 },
+            { rank: -1, file: 0, range: 1 },
+            { rank: -1, file: 1, range: 1 }
         ],
         initialMoveSet: [],
         captureMoveSet: [],
@@ -29,14 +29,14 @@ export const characterIndex: CharacterIndex = {
     },
     'Queen': {
         moveSet: [
-            { rank: 0, file: 1, step: 7 },
-            { rank: 1, file: 1, step: 7 },
-            { rank: 1, file: 0, step: 7 },
-            { rank: 1, file: -1, step: 7 },
-            { rank: 0, file: -1, step: 7 },
-            { rank: -1, file: -1, step: 7 },
-            { rank: -1, file: 0, step: 7 },
-            { rank: -1, file: 1, step: 7 },
+            { rank: 0, file: 1, range: 7 },
+            { rank: 1, file: 1, range: 7 },
+            { rank: 1, file: 0, range: 7 },
+            { rank: 1, file: -1, range: 7 },
+            { rank: 0, file: -1, range: 7 },
+            { rank: -1, file: -1, range: 7 },
+            { rank: -1, file: 0, range: 7 },
+            { rank: -1, file: 1, range: 7 },
         ],
         initialMoveSet: [],
         captureMoveSet: [],
@@ -45,10 +45,10 @@ export const characterIndex: CharacterIndex = {
     },
     'Rook': {
         moveSet: [
-            { rank: 0, file: 1, step: 7 },
-            { rank: 1, file: 0, step: 7 },
-            { rank: 0, file: -1, step: 7 },
-            { rank: -1, file: 0, step: 7 },
+            { rank: 0, file: 1, range: 7 },
+            { rank: 1, file: 0, range: 7 },
+            { rank: 0, file: -1, range: 7 },
+            { rank: -1, file: 0, range: 7 },
         ],
         initialMoveSet: [],
         captureMoveSet: [],
@@ -57,10 +57,10 @@ export const characterIndex: CharacterIndex = {
     },
     'Bishop': {
         moveSet: [
-            { rank: 1, file: 1, step: 7 },
-            { rank: 1, file: -1, step: 7 },
-            { rank: -1, file: -1, step: 7 },
-            { rank: -1, file: 1, step: 7 },
+            { rank: 1, file: 1, range: 7 },
+            { rank: 1, file: -1, range: 7 },
+            { rank: -1, file: -1, range: 7 },
+            { rank: -1, file: 1, range: 7 },
         ],
         initialMoveSet: [],
         captureMoveSet: [],
@@ -69,14 +69,14 @@ export const characterIndex: CharacterIndex = {
     },
     'Knight': {
         moveSet: [
-            { rank: 1, file: 2, step: 1 },
-            { rank: 2, file: 1, step: 1 },
-            { rank: 2, file: -1, step: 1 },
-            { rank: 1, file: -2, step: 1 },
-            { rank: -1, file: -2, step: 1 },
-            { rank: -2, file: -1, step: 1 },
-            { rank: -2, file: 1, step: 1 },
-            { rank: -1, file: 2, step: 1 },
+            { rank: 1, file: 2, range: 1 },
+            { rank: 2, file: 1, range: 1 },
+            { rank: 2, file: -1, range: 1 },
+            { rank: 1, file: -2, range: 1 },
+            { rank: -1, file: -2, range: 1 },
+            { rank: -2, file: -1, range: 1 },
+            { rank: -2, file: 1, range: 1 },
+            { rank: -1, file: 2, range: 1 },
         ],
         initialMoveSet: [],
         captureMoveSet: [],
@@ -86,12 +86,15 @@ export const characterIndex: CharacterIndex = {
     'Pawn': {
         //base on light
         moveSet: [
-            { rank: -1, file: 0, step: 1 },
+            { rank: -1, file: 0, range: 1 },
         ],
-        initialMoveSet: [{ rank: -1, file: 0, step: 2 }],
+        initialMoveSet: [
+            { rank: -1, file: 0, range: 1 },
+            { rank: -2, file: 0, range: 1 }
+        ],
         captureMoveSet: [
-            { rank: -1, file: 1, step: 1 },
-            { rank: -1, file: -1, step: 1 }
+            { rank: -1, file: 1, range: 1 },
+            { rank: -1, file: -1, range: 1 }
         ],
         symbols: ['♙', '♟︎', 'P'],
         qty: 8

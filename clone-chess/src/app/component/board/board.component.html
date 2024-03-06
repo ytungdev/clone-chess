@@ -1,6 +1,6 @@
 <div *ngIf="board">
     <table>
-        <caption>Chess board</caption>
+        <caption></caption>
         <tr *ngIf="files">
             <ng-container *ngFor="let file of files">
                 <th>{{file}}</th>
@@ -11,8 +11,8 @@
                 <td [ngClass]="
                     selected==r+f ? 
                     'selected' : 
-                        (promote.includes(board[r][f].id) ? 'promote' :
-                        (highlx.includes(board[r][f].id) ? 'highlx' : board[r][f].color)
+                        (promote.includes(r+f) ? 'promote' :
+                        (highlx.includes(r+f) ? 'highlx' : board[r][f].color)
                         )" (click)="select(r, f)" id="{{r+f}}">
                     <ng-container *ngIf="board[r][f].occupier != null;else occupier_null">
                         <span [ngClass]="board[r][f].occupier.color=='light' ? 'white' : 'black' ">

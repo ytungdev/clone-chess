@@ -70,7 +70,6 @@ class Board {
 })
 
 export class BoardComponent {
-    user: { sex: string } = { sex: 'F' }
     board: any = {};
     ranks: string[] = Board.ranks;
     files: string[] = Board.files;
@@ -80,6 +79,9 @@ export class BoardComponent {
     selected: string = ''
 
     winner: string = ''
+    promotion:boolean = false;
+
+    superPawn:any = null;
 
     reset() {
         this.selected = '';
@@ -207,6 +209,9 @@ export class BoardComponent {
             tsq.occupier = chess
             if (this.promote.includes(tr + tf)) {
                 alert('PROMOTION!!')
+                this.promotion = true
+                this.superPawn = tsq.occupier
+                console.log(this.promotion)
             }
             this.reset()
         }
@@ -233,6 +238,19 @@ export class BoardComponent {
                 console.log(`${ff}${fr} > ${tf}${tr} : block`)
             }
         }
+    }
+
+    doPromote(char:string):void{
+        let chess = this.promotion
+        // Update data
+        this.superPawn.character = char
+        this.superPawn.moveSet = Chess.characterIndex[char].moveSet;
+        this.superPawn.symbol = this.superPawn.color == 'light' ? 
+            Chess.characterIndex[char].symbols[0] : 
+            Chess.characterIndex[char].symbols[1]
+        // Reset
+        this.promotion = false
+        this.superPawn = null
     }
 
     ngOnInit(): void {

@@ -28,6 +28,14 @@
                 {{ranks[i]}}
             </th>
         </tr>
+    </table >
+    <table *ngIf="promotion">
+        <tr>
+            <th (click)="doPromote('Queen')">Queen</th>
+            <th (click)="doPromote('Rook')">Rook</th>
+            <th (click)="doPromote('Bishop')">Bishop</th>
+            <th (click)="doPromote('Knight')">knight</th>
+        </tr>
     </table>
     <h1 style="text-align: center" *ngIf="winner != ''">The winner is : {{winner}}</h1>
 </div>

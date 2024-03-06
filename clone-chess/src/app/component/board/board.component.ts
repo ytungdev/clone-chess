@@ -229,8 +229,7 @@ export class BoardComponent {
                     this.winner = chess?.color || ''
                 }
                 moveTo()
-            }
-            if (tsq.occupier.color == chess?.color) {
+            } else {
                 console.log(`${ff}${fr} > ${tf}${tr} : block`)
             }
         }

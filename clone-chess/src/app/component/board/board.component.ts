@@ -46,7 +46,7 @@ class Board {
         }
         return false
     }
-    
+
     static readonly fileMovement = (current: string, step: number) => {
         // 'a' + 1 = 'b'
         // 'a'->97, 'h'->104
@@ -114,6 +114,8 @@ export class BoardComponent {
         }
 
         const char = chess.character
+        const color = chess.color
+
         let moveSet = chess.moveSet
         let moves = []
         if (char == 'Pawn') {
@@ -121,13 +123,11 @@ export class BoardComponent {
             if (r == chess.initialPosition.rank && f == chess.initialPosition.file) {
                 moveSet = chess.initialMoveSet;
             }
-            console.log('ms', moveSet)
             for (let m in moveSet) {
                 const action = moveSet[m]
                 for (let i = 1; i < action.range + 1; i++) {
                     const newR = Board.rankMovement(r, action.rank * i * direction)
                     const newF = Board.fileMovement(f, action.file * i)
-                    console.log('test', newR, newF)
                     if (newR && newF) {
                         const sq = this.board[newR][newF]
                         const occupier = sq.occupier
@@ -139,7 +139,27 @@ export class BoardComponent {
                 }
             }
         } else {
-
+            for (let m in moveSet) {
+                const action = moveSet[m]
+                for (let i = 1; i < action.range + 1; i++) {
+                    const newR = Board.rankMovement(r, action.rank * i)
+                    const newF = Board.fileMovement(f, action.file * i)
+                    if (newR && newF) {
+                        const sq = this.board[newR][newF]
+                        const occupier = sq.occupier
+                        const id = newR + newF;
+                        if (occupier != null) {
+                            if (occupier.color != color) {
+                                moves.push(id)
+                            }
+                            break
+                        }
+                        if (occupier == null) {
+                            moves.push(id)
+                        }
+                    }
+                }
+            }
         }
         console.log('moves', moves)
         return moves

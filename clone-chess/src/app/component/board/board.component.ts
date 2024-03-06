@@ -39,7 +39,6 @@ class Board {
         // '8' + 1 = '7'
         const curInt = parseInt(current)
         const newInt = curInt - step
-        console.log('rank', current, step, newInt)
         if (1 <= newInt && newInt <= 8) {
             const newStr = newInt.toString()
             return newStr
@@ -52,7 +51,6 @@ class Board {
         // 'a'->97, 'h'->104
         const curInt = current.charCodeAt(0)
         const newInt = curInt + step
-        console.log('file', current, step, newInt)
         if (97 <= newInt && newInt <= 104) {
             return String.fromCharCode(newInt)
         }
@@ -142,18 +140,16 @@ export class BoardComponent {
             }
 
             // Capture
-            console.log('capture', chess.captureMoveSet)
-            for (let c in chess.captureMoveSet){
+            for (let c in chess.captureMoveSet) {
                 const action = chess.captureMoveSet[c]
-                for (let i = 1; i<action.range+1;i++){
+                for (let i = 1; i < action.range + 1; i++) {
                     const newR = Board.rankMovement(r, action.rank * i * direction)
                     const newF = Board.fileMovement(f, action.file * i)
-                    console.log('capture', newR, newF)
-                    if(newR && newF){
+                    if (newR && newF) {
                         const sq = this.board[newR][newF]
                         const occupier = sq.occupier
                         const id = newR + newF;
-                        if (occupier != null){
+                        if (occupier != null) {
                             if (occupier.color != color) {
                                 moves.push(id)
                             }
@@ -164,15 +160,16 @@ export class BoardComponent {
             }
 
             // Promotion
-            let enemyBase:string[];
-            if (color == 'white'){
-                enemyBase = ['8a', '8b', '8c', '8d', '8e', '8f', '8g', '8h']
+            let enemyBase: string;
+            if (color == 'dark') {
+                enemyBase = '1'
             } else {
-                enemyBase = ['8a', '8b', '8c', '8d', '8e', '8f', '8g', '8h']
+                enemyBase = '8'
             }
             moves.forEach(loc => {
-                if (enemyBase.includes(loc)){
+                if (loc.substring(0,1) == enemyBase) {
                     this.promote.push(loc)
+                    console.log('promote',this.promote)
                 }
             })
         } else {
@@ -198,19 +195,17 @@ export class BoardComponent {
                 }
             }
         }
-        console.log('moves', moves)
         return moves
     }
 
     move(fr: string, ff: string, tr: string, tf: string): void {
-        console.log(fr,ff,tr,tf)
         let fsq = this.board[fr][ff]
         let tsq = this.board[tr][tf]
         let chess: (Chess.ChessPiece | null) = null;
         const moveTo = () => {
             fsq.occupier = null;
             tsq.occupier = chess
-            if(this.promote.includes(tr+tf)){
+            if (this.promote.includes(tr + tf)) {
                 alert('PROMOTION!!')
             }
             this.reset()
@@ -228,14 +223,14 @@ export class BoardComponent {
             moveTo()
             console.log(`${ff}${fr} > ${tf}${tr} : to empty`)
         } else {
-            if (tsq.color != chess?.color) {
+            if (tsq.occupier.color != chess?.color) {
                 console.log(`${ff}${fr} > ${tf}${tr} : capture`)
-                if (tsq.occupier.character == 'King'){
+                if (tsq.occupier.character == 'King') {
                     this.winner = chess?.color || ''
                 }
                 moveTo()
             }
-            if (tsq.color == chess?.color) {
+            if (tsq.occupier.color == chess?.color) {
                 console.log(`${ff}${fr} > ${tf}${tr} : block`)
             }
         }

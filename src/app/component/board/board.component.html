@@ -38,5 +38,8 @@
             <th (click)="doPromote('Knight')">knight</th>
         </tr>
     </table>
-    <h1 style="text-align: center" *ngIf="winner != ''">The winner is : {{winner == 'light' ? 'White' : 'Black'}}</h1>
+    <h1 style="text-align: center" *ngIf="winner != ''">The winner is : {{winner == 'light' ? 'White' : 'Black'}}
+        <br>
+        <button onclick="location.reload();">Restart</button>   
+    </h1>
 </div>

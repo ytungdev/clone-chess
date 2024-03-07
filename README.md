@@ -7,6 +7,7 @@ For practice purposes. Inspired by n-knights and n-queen problem.
 
 ## Usage
 ```
+npm install
 ng serve -o
 ```
 

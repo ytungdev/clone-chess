@@ -30,3 +30,8 @@ ng serve -o
   - Capture enemy if landing on chess with oppoiste color
   - Win if capturing enemy King
   - When a pawn advances to its eighth rank, it is promoted
+
+
+## To-do
+
+- Add custom starting board

@@ -30,6 +30,7 @@
         </tr>
     </table >
     <table *ngIf="promotion">
+        <caption></caption>
         <tr>
             <th (click)="doPromote('Queen')">Queen</th>
             <th (click)="doPromote('Rook')">Rook</th>
@@ -37,5 +38,5 @@
             <th (click)="doPromote('Knight')">knight</th>
         </tr>
     </table>
-    <h1 style="text-align: center" *ngIf="winner != ''">The winner is : {{winner}}</h1>
+    <h1 style="text-align: center" *ngIf="winner != ''">The winner is : {{winner == 'light' ? 'White' : 'Black'}}</h1>
 </div>
